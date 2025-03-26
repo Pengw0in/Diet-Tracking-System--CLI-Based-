@@ -1,19 +1,15 @@
-import json
-from calIntake import calIntake as cl
 import utils as ut
 
 def main():
     print("=" * 50)
     print("          Welcome to the Calorie Tracker")
     print("=" * 50)
-    print(f"\n✨Your daily calorie intake should be: {ut.get_info()}\n")
+    print(f"\n✨Your daily calorie intake should be: {ut.get_info()} calories\n")
 
     while True:
         print("\nMain Menu")
         print("-" * 50)
-        print("1. Log Food")
-        print("2. View Log")
-        print("3. Exit")
+        print("1. Log Food\n2. View Log\n3. Exit")
         print("-" * 50)
         choice = input("Enter your choice: ").strip()
         
@@ -21,11 +17,7 @@ def main():
             while True:
                 print("\nLog Food Menu")
                 print("-" * 50)
-                print("1. Breakfast")
-                print("2. Lunch")
-                print("3. Snacks")
-                print("4. Dinner")
-                print("5. Back to Main Menu")
+                print("1. Breakfast\n2. Lunch\n3. Snacks\n4. Dinner\n5. Back to Main Menu")
                 print("-" * 50)
                 meal_choice = input("Enter meal type: ").strip()
                 meal_map = {"1": "Breakfast", "2": "Lunch", "3": "Snacks", "4": "Dinner"}

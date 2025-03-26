@@ -2,7 +2,7 @@ import os
 import json
 from dotenv import load_dotenv
 import requests
-from calIntake import calIntake as ci
+
 
 load_dotenv()
 
@@ -18,10 +18,32 @@ def get_info():
     height = float(input("Enter your height (in cm): "))
     age = float(input("Enter your age (in years): "))
     gender = input("Enter your gender (male/female): ").strip().lower()
+    if gender.lower() == "male":
+        s = 5.00
+    elif gender.lower() == "female":
+        s = -161.00
+    else:
+        raise ValueError("Invalid gender. Please specify 'male' or 'female'")
     actLvl = int(input("Enter your activity level (1-5): "))
+    if actLvl not in range(1, 6):
+            raise ValueError("Activity level must be between 1 and 5.")
 
-    daily_calories = ci(weight, target, time, height, age, gender, actLvl)
-    return daily_calories
+    USER_BMR = (10.00 * weight) + (6.25 * height) - (5.00 * age) - s
+
+    activity_multipliers = {
+        1: 1.20,
+        2: 1.37,
+        3: 1.55,
+        4: 1.72,
+        5: 1.90
+    }
+    multiplier = activity_multipliers.get(actLvl)
+    USER_TDEE = round(USER_BMR * multiplier, 2)
+
+    calDef = round((target * 7700) / time, 2)
+    calInt = round(USER_TDEE - calDef, 2)
+
+    return calInt
 
 def get_nutrition(food_item):
     headers = {
