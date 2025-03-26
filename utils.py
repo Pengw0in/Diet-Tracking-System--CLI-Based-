@@ -40,7 +40,7 @@ def get_info():
     multiplier = activity_multipliers.get(actLvl)
     USER_TDEE = round(USER_BMR * multiplier, 2)
 
-    calDef = round((target * 7700) / time, 2)
+    calDef = round(((weight - target) * 7700) / time, 2)
     calInt = round(USER_TDEE - calDef, 2)
 
     return calInt
@@ -101,7 +101,7 @@ def log_food(meal_type, food_name, portion, calories):
         logs = {"Breakfast": [], "Lunch": [], "Snacks": [], "Dinner": []}
     
     default_logs = {"Breakfast": [], "Lunch": [], "Snacks": [], "Dinner": []}
-    logs = {**default_logs, **logs}  # Merge default keys with existing logs
+    logs = {**default_logs, **logs}
 
     logs[meal_type].append({"food": food_name, "portion": portion, "calories": calories})
 
