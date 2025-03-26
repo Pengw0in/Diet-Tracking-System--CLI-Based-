@@ -4,7 +4,8 @@ def main():
     print("=" * 50)
     print("          Welcome to the Calorie Tracker")
     print("=" * 50)
-    print(f"\n✨Your daily calorie intake should be: {ut.get_info()} calories\n")
+    calories = ut.get_info()
+    print(f"\n✨Your daily calorie intake should be: {calories} calories\n")
 
     while True:
         print("\nMain Menu")
@@ -31,7 +32,7 @@ def main():
                     if data and "foods" in data:
                         item = data["foods"][0]
                         ut.log_food(meal_type, item['food_name'], portion, item['nf_calories'])
-                        print(f"✅ Logged: {item['food_name']} ({portion}) - {item['nf_calories']} kcal")
+                        print(f"✅ Logged: {item['food_name']} ({portion}) - {item['nf_calories']} cal")
                     else:
                         print("⚠️ Error: Unable to fetch nutrition data.")
                 elif meal_choice == "5":
@@ -41,6 +42,7 @@ def main():
         elif choice == "2":
             print("\n📜 Viewing Food Log...")
             ut.view_logs()
+            print(f"🔥 Your target Calories :{calories} cal")
         elif choice == "3":
             print("\nThank you for using the Calorie Tracker. Goodbye!")
             print("=" * 50)
