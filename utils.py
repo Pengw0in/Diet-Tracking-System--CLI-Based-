@@ -9,16 +9,42 @@ load_dotenv()
 APP_ID = os.getenv("APP_ID")
 API_KEY = os.getenv("API_KEY")
 BASE_URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
-LOG_FILE = "diet_log.json"
+USER_PROFILE_FILE = "user_profiles.json"
 
-def get_info():
+def save_user_profile(userName, profile_data):
+    try:
+        with open(USER_PROFILE_FILE, "r") as file:
+            profiles = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        profiles = {}
+
+    profiles[userName] = profile_data
+
+    with open(USER_PROFILE_FILE, "w") as file:
+        json.dump(profiles, file, indent=4)
+
+def load_user_profile(userName):
+    try:
+        with open(USER_PROFILE_FILE, "r") as file:
+            profiles = json.load(file)
+        return profiles.get(userName)
+    except(FileNotFoundError, json.JSONDecodeError):
+        return None
+
+def get_user_log_file(userName):
+    return f"{userName}_diet_log.json"
+
+def get_info(userName):
+    existing_profile = load_user_profile(userName)
+    if existing_profile:
+        print("\n✅ Found existing profile. Using saved data")
+        return existing_profile['calInt']
+    
     while True:
         try:
-            weight = float(input("Enter your weight (in kg): "))
-            target = float(input("Enter how much weight you want to lose (in kg): "))
-            time = float(input("Enter the time to achieve your target (in days): "))
-            height = float(input("Enter your height (in cm): "))
-            age = float(input("Enter your age (in years): "))
+            age = float(input("\nEnter your age (in years): "))
+            if age <= 0:
+                raise ValueError("Age can not be a negative number")
             gender = input("Enter your gender (male/female): ").strip().lower()
             if gender == "male":
                 s = 5.00
@@ -26,11 +52,16 @@ def get_info():
                 s = -161.00
             else:
                 raise ValueError("Invalid gender. Please specify 'male' or 'female'.")
-
-            actLvl = float(input("Enter your activity level (1-5): "))
+            height = float(input("Enter your height (in cm): "))
+            weight = float(input("Enter your weight (in kg): "))
+            target = float(input("Enter how much weight you want to lose (in kg): "))
+            time = float(input("Enter the time to achieve your target (in days): "))
+            actLvl = int(input("Enter your activity level (1-5): "))
             if actLvl not in range(1, 6):
                 raise ValueError("Activity level must be between 1 and 5.")
 
+            
+            # Mifflin-St Jeor Equation to calculate Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE)
             USER_BMR = (10.00 * weight) + (6.25 * height) - (5.00 * age) + s
 
             activity_multipliers = {
@@ -50,11 +81,25 @@ def get_info():
                 print("Please adjust your target weight loss or time frame.")
                 continue
 
-            calInt = round(USER_TDEE - calDef, 2)
-            return calInt
+            calIn = round(USER_TDEE - calDef, 2)
+
+            profile_data = {
+                "weight": weight,
+                "target": target,
+                "time": time,
+                "height": height,
+                "age": age,
+                "gender": gender,
+                "actLvl": actLvl,
+                "calIn": calIn
+            }
+            save_user_profile(userName, profile_data)
+
+            return calIn
 
         except ValueError as e:
-            print(f"❌ Error: {e}. Please enter valid inputs.")
+            print(f"❌ Error: {e}. Please Re-enter your inputs.")
+
 
 def get_nutrition(food_item):
     headers = {
@@ -72,9 +117,10 @@ def get_nutrition(food_item):
         return None
 
 
-def view_logs():
+def view_logs(userName):
+    log_file = get_user_log_file(userName)
     try:
-        with open(LOG_FILE, "r") as file:
+        with open(log_file, "r") as file:
             logs = json.load(file)
     except (FileNotFoundError, json.JSONDecodeError):
         logs = {"Breakfast": [], "Lunch": [], "Snacks": [], "Dinner": []}
@@ -102,9 +148,10 @@ def view_logs():
     print("\n🔥 Grand Total Calories for the Day:", grand_total_calories, "cal") 
 
       
-def log_food(meal_type, food_name, portion, calories):
+def log_food(userName, meal_type, food_name, portion, calories):
+    log_file = get_user_log_file(userName)
     try:
-        with open(LOG_FILE, "r") as file:
+        with open(log_file, "r") as file:
             logs = json.load(file)
     except (FileNotFoundError, json.JSONDecodeError):
         logs = {"Breakfast": [], "Lunch": [], "Snacks": [], "Dinner": []}
@@ -114,7 +161,7 @@ def log_food(meal_type, food_name, portion, calories):
 
     logs[meal_type].append({"food": food_name, "portion": portion, "calories": calories})
 
-    with open(LOG_FILE, "w") as file:
+    with open(log_file, "w") as file:
         json.dump(logs, file, indent=4)
 
     print(f"Logged: {food_name} ({portion}) - {calories} kcal for {meal_type}")
