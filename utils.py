@@ -100,7 +100,6 @@ def get_info(userName):
         except ValueError as e:
             print(f"❌ Error: {e}. Please Re-enter your inputs.")
 
-
 def get_nutrition(food_item):
     headers = {
         "x-app-id": APP_ID,
@@ -115,7 +114,6 @@ def get_nutrition(food_item):
     else:
         print("Error fetching data:", response.text)
         return None
-
 
 def view_logs(userName):
     log_file = get_user_log_file(userName)
@@ -146,8 +144,7 @@ def view_logs(userName):
     
 
     print("\n🔥 Grand Total Calories for the Day:", grand_total_calories, "cal") 
-
-      
+    
 def log_food(userName, meal_type, food_name, portion, calories):
     log_file = get_user_log_file(userName)
     try:
