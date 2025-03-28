@@ -3,7 +3,6 @@ import json
 from dotenv import load_dotenv
 import requests
 
-
 load_dotenv()
 
 APP_ID = os.getenv("APP_ID")

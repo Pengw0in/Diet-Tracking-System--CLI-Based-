@@ -34,17 +34,33 @@ def main():
     while True:
         print("\nMain Menu")
         print("-" * 50)
-        print("1. Log Food\n2. View Log\n3. Exit")
+        print("1. View Food Nutrition\n2. Log Food\n3. View Log\n4. Exit")
         print("-" * 50)
-        choice = input("Enter your choice: ").strip()
+        choice = int(input("Enter your choice: ").strip())
         
-        if choice == "1":
+        if choice == 1:
+            food = input("\nEnter food name: ").strip()
+            portion = input("Enter portion size (e.g., 100g, 1 unit): ").strip()
+            query = f"{portion} of {food}"
+            data = ut.get_nutrition(query)
+            if data and "foods" in data:
+                item = data["foods"][0]
+                print(
+                    f"\n🍽️ Nutrition Values of {item['food_name'].upper()} as per inputted portion of {portion.upper()}:\n"
+                    f" - Calories: {item['nf_calories']} calories\n"
+                    f" - Carbs   : {item['nf_total_carbohydrate']} grams\n"
+                    f" - Proteins: {item['nf_protein']} grams\n"
+                    f" - Fibers  : {item['nf_dietary_fiber']} grams\n"
+                    f" - Fats    : {item['nf_total_fat']} grams"
+                )
+    
+        elif choice == 2:
             while True:
                 print("\nLog Food Menu")
                 print("-" * 50)
                 print("1. Breakfast\n2. Lunch\n3. Snacks\n4. Dinner\n5. Back to Main Menu")
                 print("-" * 50)
-                meal_choice = input("Enter meal type: ").strip()
+                meal_choice = input("\nEnter meal type: ").strip()
                 meal_map = {"1": "Breakfast", "2": "Lunch", "3": "Snacks", "4": "Dinner"}
 
                 if meal_choice in meal_map:
@@ -63,11 +79,11 @@ def main():
                     break
                 else:
                     print("❌ Invalid choice. Please try again.")
-        elif choice == "2":
+        elif choice == 3:
             print("\n📜 Viewing Food Log...")
             ut.view_logs(userName)
             print(f"🔥 Your target Calories :{calories} cal")
-        elif choice == "3":
+        elif choice == 4:
             print("\nThank you for using the Calorie Tracker. Goodbye!")
             print("=" * 50)
             break
