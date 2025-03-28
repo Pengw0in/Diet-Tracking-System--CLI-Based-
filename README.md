@@ -12,3 +12,6 @@ A simple Python app to track your daily calorie intake and log food items.
 1. Install dependencies:
    ```bash
    pip install requests python-dotenv
+
+## Credits
+- Nutritional information is powered by **[Nutritionix®](https://www.nutritionix.com)**
