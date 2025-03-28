@@ -37,7 +37,9 @@ def main():
             profile = ut.load_user_profile(userName)
             if profile:
                 calories = profile['calIn']
-                print(f"\n✨Welcome back, {userName}! Your daily calorie intake is: {calories} calories\n")
+                print(f"\n✨Welcome back, {userName}! Hope your are doing well!\n"
+                      f"As per your Previous data, your daily calorie intake should be {calories} calories")
+                input("\nPress Enter to move to the main menu...")
             else:
                 print("❌ No profile found for this username. Please create a new user.")
                 input("\nPress Enter to return to the main menu...")
@@ -67,6 +69,7 @@ def main():
                         f" - Fibers  : {item['nf_dietary_fiber']} grams\n"
                         f" - Fats    : {item['nf_total_fat']} grams"
                     )
+                    input("\nPress Enter to return to the main menu...")
         
             elif choice == 2:
                 ut.clear_screen()
@@ -102,7 +105,7 @@ def main():
                 print("\n📜 Viewing Food Log...")
                 ut.view_logs(userName)
                 print(f"🔥 Your target Calories : {calories} cal")
-                input("\nPress Enter to return to the main menu...")  # Pause to allow the user to view logs
+                input("\nPress Enter to return to the main menu...")
             elif choice == 4:
                 ut.clear_screen()
                 print("\nThank you for using the Calorie Tracker. Goodbye!")
