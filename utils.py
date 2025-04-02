@@ -161,3 +161,6 @@ def log_food(userName, meal_type, food_name, portion, calories):
         json.dump(logs, file, indent=4)
 
     print(f"Logged: {food_name} ({portion}) - {calories} kcal for {meal_type}")
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
