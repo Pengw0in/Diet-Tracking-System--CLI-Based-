@@ -32,6 +32,7 @@ def main():
                 continue
             calories = ut.get_info(userName)
             print(f"\n✨Your daily calorie intake should be: {calories} calories\n")
+            input("\nPress Enter to return to the main menu...")
         elif new_Choice == 2:
             ut.clear_screen()
             profile = ut.load_user_profile(userName)
