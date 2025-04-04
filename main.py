@@ -43,7 +43,7 @@ def main():
                 input("\nPress Enter to move to the main menu...")
             else:
                 print("❌ No profile found for this username. Please create a new user.")
-                input("\nPress Enter to return to the main menu...")
+                input("\nPress Enter to return to the Login menu...")
                 continue
 
         while True:
@@ -60,6 +60,13 @@ def main():
                 portion = input("Enter portion size (e.g., 100g, 1 unit): ").strip()
                 query = f"{portion} of {food}"
                 data = ut.get_nutrition(query)
+
+                if not data or "foods" not in data:
+                    print("\n⚠️ Error: Unable to fetch nutrition data for the entered food.")
+                    print("Please check the food name and try again.")
+                    input("\nPress Enter to return to the main menu...")
+                    
+
                 if data and "foods" in data:
                     item = data["foods"][0]
                     print(
