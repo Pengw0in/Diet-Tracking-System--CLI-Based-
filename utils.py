@@ -55,7 +55,13 @@ def get_info(userName):
             weight = float(input("Enter your weight (in kg): "))
             target = float(input("Enter how much weight you want to lose (in kg): "))
             time = float(input("Enter the time to achieve your target (in days): "))
-            actLvl = int(input("Enter your activity level (1-5): "))
+            print("Enter your activity level (1-5):")
+            print("1. Sedentary (little to no exercise)")
+            print("2. Lightly active (1-3 days/week)")
+            print("3. Moderately active (3-5 days/week)")
+            print("4. Very active (6-7 days/week)")
+            print("5. Super active (athlete, intense training)")
+            actLvl = int(input("Your choice: "))
             if actLvl not in range(1, 6):
                 raise ValueError("Activity level must be between 1 and 5.")
 
