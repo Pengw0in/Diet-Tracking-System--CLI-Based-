@@ -28,8 +28,12 @@ def main():
             if ut.load_user_profile(userName):
                 confirm = input("⚠️ A profile with this username already exists. Overwrite? (yes/no): ").strip().lower()
                 if confirm != "yes":
-                    print("❌ Profile creation canceled.")
-                continue
+                    print("✅ Using existing profile.")
+                    profile = ut.load_user_profile(userName)
+                    calories = profile['calIn']
+                    print(f"\n✨Your daily calorie intake should be: {calories} calories\n")
+                    input("\nPress Enter to continue...")
+                    continue
             calories = ut.get_info(userName)
             print(f"\n✨Your daily calorie intake should be: {calories} calories\n")
             input("\nPress Enter to return to the main menu...")

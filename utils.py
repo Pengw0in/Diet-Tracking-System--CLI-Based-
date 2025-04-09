@@ -8,7 +8,7 @@ load_dotenv()
 APP_ID = os.getenv("APP_ID")
 API_KEY = os.getenv("API_KEY")
 BASE_URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
-USER_PROFILE_FILE = "user_profiles.json"
+USER_PROFILE_FILE = "userProfile/user_profiles.json"
 
 def save_user_profile(userName, profile_data):
     try:
@@ -31,7 +31,7 @@ def load_user_profile(userName):
         return None
 
 def get_user_log_file(userName):
-    return f"{userName}_diet_log.json"
+    return f"dietLogs/{userName}_diet_log.json"
 
 def get_info(userName):
     existing_profile = load_user_profile(userName)
