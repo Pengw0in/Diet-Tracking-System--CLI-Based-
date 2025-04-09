@@ -1,0 +1,12 @@
+{
+    "lohith": {
+        "weight": 65.0,
+        "target": 5.0,
+        "time": 45.0,
+        "height": 161.0,
+        "age": 18.0,
+        "gender": "male",
+        "actLvl": 3,
+        "calIn": 1579.88
+    }
+}

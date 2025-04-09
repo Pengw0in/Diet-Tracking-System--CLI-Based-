@@ -26,7 +26,7 @@ def main():
         if new_Choice == 1:
             ut.clear_screen()
             if ut.load_user_profile(userName):
-                confirm = input("⚠️ A profile with this username already exists. Overwrite? (yes/no): ").strip().lower()
+                confirm = input("⚠️ A profile with this username already exists. Load the data? (yes/no): ").strip().lower()
                 if confirm != "yes":
                     print("✅ Using existing profile.")
                     profile = ut.load_user_profile(userName)

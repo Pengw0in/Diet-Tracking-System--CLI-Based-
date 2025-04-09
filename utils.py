@@ -31,13 +31,14 @@ def load_user_profile(userName):
         return None
 
 def get_user_log_file(userName):
+    os.makedirs("dietLogs", exist_ok=True)
     return f"dietLogs/{userName}_diet_log.json"
 
 def get_info(userName):
     existing_profile = load_user_profile(userName)
     if existing_profile:
         print("\n✅ Found existing profile. Using saved data")
-        return existing_profile['calInt']
+        return existing_profile['calIn']
     
     while True:
         try:
