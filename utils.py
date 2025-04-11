@@ -2,6 +2,7 @@ import os
 import json
 from dotenv import load_dotenv
 import requests
+from colorama import init, Fore, Style
 
 load_dotenv()
 
@@ -9,6 +10,8 @@ APP_ID = os.getenv("APP_ID")
 API_KEY = os.getenv("API_KEY")
 BASE_URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
 USER_PROFILE_FILE = "userProfile/user_profiles.json"
+
+init(autoreset=True)
 
 def save_user_profile(userName, profile_data):
     try:
@@ -129,27 +132,26 @@ def view_logs(userName):
     except (FileNotFoundError, json.JSONDecodeError):
         logs = {"Breakfast": [], "Lunch": [], "Snacks": [], "Dinner": []}
     
-    print("\nFood Log:")
+    print(f"\n{Fore.MAGENTA}{Style.BRIGHT}Food Log:")
 
     total_calories_per_meal = {"Breakfast": 0, "Lunch": 0, "Snacks": 0, "Dinner": 0}
     grand_total_calories = 0
     
     for meal, items in logs.items():
-        print(f"\n{meal}:")
+        print(f"\n{Fore.CYAN}{meal}:")
         if items:
             for entry in items:
-                print(f"  - {entry['food']} ({entry['portion']}) - {entry['calories']} cal")
+                print(f"{Fore.WHITE}  - {entry['food']} ({entry['portion']}) - {Fore.YELLOW}{entry['calories']} cal")
                 total_calories_per_meal[meal] += entry['calories']
         else:
-            print("No entries.")
+            print(f"{Fore.YELLOW}No entries.")
 
-    print("\n--- Total Calories per Meal ---")
+    print(f"\n{Fore.MAGENTA}{Style.BRIGHT}--- Total Calories per Meal ---")
     for meal, total in total_calories_per_meal.items():
-        print(f"{meal}: {total} cal")
+        print(f"{Fore.CYAN}{meal}: {Fore.YELLOW}{total} cal")
         grand_total_calories += total 
     
-
-    print("\n🔥 Grand Total Calories for the Day:", grand_total_calories, "cal") 
+    print(f"\n{Fore.CYAN}Grand Total Calories for the Day: {Fore.WHITE}{Style.BRIGHT}{grand_total_calories} cal")
     
 def log_food(userName, meal_type, food_name, portion, calories):
     log_file = get_user_log_file(userName)
