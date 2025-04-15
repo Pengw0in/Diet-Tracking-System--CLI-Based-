@@ -1,6 +1,6 @@
-# Calorie Tracker
+# Calorie Tracker - CASE STUDY FOR SEMESTER 2
 
-A simple Python app to track your daily calorie intake and log food items.
+A simple Python application to track your daily calorie intake and log food items.
 
 ## Features
 - **User Profiles**: Create and save personalized profiles.
@@ -10,10 +10,8 @@ A simple Python app to track your daily calorie intake and log food items.
 - **View Logs**: See daily food logs and calorie breakdown.
 
 ## Setup
-1. Install dependencies by either of the following commands:
+1. Install dependencies by the following commands:
    ```bash
-   pip install requests python-dotenv 
-   
    pip install -r requirements.txt
 
 ## Credits
